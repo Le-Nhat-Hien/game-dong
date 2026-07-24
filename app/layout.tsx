@@ -10,8 +10,19 @@ const nunito = Nunito({
 });
 
 export const metadata: Metadata = {
-  title: "Cả Lớp Đánh Boss",
-  description: "Game mini: Cả lớp cùng nhau đánh boss! Tham gia và chiến đấu.",
+  title: "Toi bi ep (🥺)",
+  description: "Game mini: Ca lop cung nhau danh boss! Tham gia va chien dau.",
+  openGraph: {
+    title: "Toi bi ep (🥺)",
+    description: "Game mini: Ca lop cung nhau danh boss! Tham gia va chien dau.",
+    siteName: "Ca Lop Danh Boss",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Toi bi ep (🥺)",
+    description: "Game mini: Ca lop cung nhau danh boss! Tham gia va chien dau.",
+  },
 };
 
 export default function RootLayout({

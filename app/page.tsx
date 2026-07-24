@@ -775,6 +775,12 @@ export default function Home() {
           >
             Nhap ten va chien dau cung ban be!
           </p>
+          <p
+            className="text-center text-xs mt-2 tracking-wide"
+            style={{ color: "rgba(150, 100, 200, 0.25)" }}
+          >
+            Created by Hien Hong Hach
+          </p>
         </div>
       </div>
     );
@@ -1084,12 +1090,10 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <p
-        className="text-center text-xs mt-4 relative z-10"
-        style={{ color: "rgba(120, 80, 180, 0.3)" }}
-      >
-        Ca Lop Danh Boss &mdash; Cung nhau chien dau!
-      </p>
+      <div className="text-center text-xs mt-4 relative z-10" style={{ color: "rgba(120, 80, 180, 0.3)" }}>
+        <p>Ca Lop Danh Boss &mdash; Cung nhau chien dau!</p>
+        <p className="mt-1" style={{ color: "rgba(120, 80, 180, 0.2)" }}>Created by Hien Hong Hach</p>
+      </div>
     </div>
   );
 }
