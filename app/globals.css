@@ -1,80 +1,344 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0a1e;
-  --foreground: #ededed;
+  --background: #0a0612;
+  --foreground: #e8e0f0;
+  --font-nunito: "Nunito", system-ui, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-nunito: var(--font-nunito);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito);
 }
 
-/* Animation: Boss shake khi bị đánh */
+/* =============================================
+   BOSS AURA - Vòng hào quang ma quái
+   ============================================= */
+
+@keyframes aura-rotate {
+  0%   { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes aura-rotate-reverse {
+  0%   { transform: translate(-50%, -50%) rotate(360deg); }
+  100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes aura-pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.9; transform: translate(-50%, -50%) scale(1.08); }
+}
+
+@keyframes aura-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 30px 10px rgba(180, 20, 20, 0.3),
+      0 0 60px 20px rgba(180, 20, 20, 0.15),
+      0 0 100px 40px rgba(100, 0, 0, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 40px 15px rgba(200, 30, 30, 0.4),
+      0 0 80px 30px rgba(200, 30, 30, 0.2),
+      0 0 120px 50px rgba(120, 0, 0, 0.15);
+  }
+}
+
+@keyframes aura-orbit-1 {
+  0%   { transform: translate(-50%, -50%) rotate(0deg)   translateX(110px) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg) translateX(110px) rotate(-360deg); }
+}
+
+@keyframes aura-orbit-2 {
+  0%   { transform: translate(-50%, -50%) rotate(120deg) translateX(95px) rotate(-120deg); }
+  100% { transform: translate(-50%, -50%) rotate(480deg) translateX(95px) rotate(-480deg); }
+}
+
+@keyframes aura-orbit-3 {
+  0%   { transform: translate(-50%, -50%) rotate(240deg) translateX(125px) rotate(-240deg); }
+  100% { transform: translate(-50%, -50%) rotate(600deg) translateX(125px) rotate(-600deg); }
+}
+
+/* =============================================
+   BOSS IDLE - Boss breathing / hover
+   ============================================= */
+
+@keyframes boss-idle {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-8px) scale(1.02); }
+}
+
+@keyframes boss-idle-3d {
+  0%, 100% {
+    transform: perspective(800px) rotateX(2deg) rotateY(-2deg) translateY(0);
+  }
+  50% {
+    transform: perspective(800px) rotateX(5deg) rotateY(2deg) translateY(-6px);
+  }
+}
+
+/* =============================================
+   BOSS SHAKE - Khi bị đánh
+   ============================================= */
+
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20% { transform: translateX(-12px) rotate(-3deg); }
-  40% { transform: translateX(10px) rotate(2deg); }
-  60% { transform: translateX(-8px) rotate(-1deg); }
-  80% { transform: translateX(6px) rotate(1deg); }
+  0%   { transform: translateX(0) rotate(0); }
+  10%  { transform: translateX(-15px) rotate(-4deg); }
+  20%  { transform: translateX(12px) rotate(3deg); }
+  30%  { transform: translateX(-10px) rotate(-2deg); }
+  40%  { transform: translateX(8px) rotate(2deg); }
+  50%  { transform: translateX(-5px) rotate(-1deg); }
+  60%  { transform: translateX(3px) rotate(0.5deg); }
+  100% { transform: translateX(0) rotate(0); }
+}
+
+@keyframes shake-3d {
+  0%   { transform: perspective(600px) rotateX(0) rotateY(0) translateX(0); }
+  15%  { transform: perspective(600px) rotateX(8deg)  rotateY(-12deg) translateX(-15px); }
+  30%  { transform: perspective(600px) rotateX(-5deg) rotateY(10deg)  translateX(12px); }
+  45%  { transform: perspective(600px) rotateX(4deg)  rotateY(-6deg) translateX(-8px); }
+  60%  { transform: perspective(600px) rotateX(-2deg) rotateY(4deg)  translateX(4px); }
+  80%  { transform: perspective(600px) rotateX(1deg)  rotateY(-1deg) translateX(-2px); }
+  100% { transform: perspective(600px) rotateX(0) rotateY(0) translateX(0); }
 }
 
 .animate-shake {
-  animation: shake 0.4s ease-in-out;
+  animation: shake 0.5s ease-in-out;
 }
 
-/* Animation: Damage number bay lên */
-@keyframes damage-float {
+.animate-shake-3d {
+  animation: shake-3d 0.5s ease-out;
+}
+
+/* =============================================
+   DAMAGE NUMBER - Số trừ máu đẹp hơn
+   ============================================= */
+
+@keyframes damage-pop {
   0% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
+    opacity: 0;
+    transform: translateY(10px) scale(0.3) rotate(-5deg);
   }
-  50% {
+  15% {
     opacity: 1;
-    transform: translateY(-30px) scale(1.2);
+    transform: translateY(-20px) scale(1.4) rotate(3deg);
+  }
+  30% {
+    transform: translateY(-30px) scale(1.1) rotate(-1deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-50px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(-60px) scale(0.8);
+    transform: translateY(-90px) scale(0.6) rotate(-8deg);
   }
 }
 
-.animate-damage {
-  animation: damage-float 1s ease-out forwards;
+@keyframes damage-flash {
+  0%   { text-shadow: 0 0 20px rgba(255, 60, 60, 1), 0 0 40px rgba(255, 60, 60, 0.5); }
+  50%  { text-shadow: 0 0 30px rgba(255, 200, 50, 1), 0 0 60px rgba(255, 200, 50, 0.5); }
+  100% { text-shadow: 0 0 15px rgba(255, 60, 60, 0.8), 0 0 30px rgba(255, 60, 60, 0.3); }
 }
 
-/* Scrollbar styling */
+.animate-damage {
+  animation: damage-pop 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards,
+             damage-flash 1.2s ease-in-out;
+}
+
+/* =============================================
+   HIT FLASH -Boss nhấp nháy khi bị đánh
+   ============================================= */
+
+@keyframes hit-flash {
+  0%   { filter: brightness(1); }
+  10%  { filter: brightness(3) saturate(0.5); }
+  20%  { filter: brightness(0.8); }
+  30%  { filter: brightness(2) saturate(0.7); }
+  50%  { filter: brightness(1.2); }
+  100% { filter: brightness(1); }
+}
+
+.animate-hit-flash {
+  animation: hit-flash 0.4s ease-out;
+}
+
+/* =============================================
+   ATTACK SLASH - Hiệu ứng cắt khi tấn công
+   ============================================= */
+
+@keyframes slash-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-30deg);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.2) rotate(-15deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8) rotate(-5deg);
+  }
+}
+
+.animate-slash {
+  animation: slash-appear 0.4s ease-out forwards;
+}
+
+/* =============================================
+   PARTICLES - Hiệu ứng hạt khi tấn công
+   ============================================= */
+
+@keyframes particle-fly-1 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-60px, -80px) scale(0); }
+}
+@keyframes particle-fly-2 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(50px, -70px) scale(0); }
+}
+@keyframes particle-fly-3 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-40px, -90px) scale(0); }
+}
+@keyframes particle-fly-4 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(70px, -50px) scale(0); }
+}
+@keyframes particle-fly-5 {
+  0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+  100% { opacity: 0; transform: translate(-20px, -100px) scale(0); }
+}
+
+/* =============================================
+   SCREEN SHAKE - Rung toàn bộ màn khi đánh mạnh
+   ============================================= */
+
+@keyframes screen-shake {
+  0%, 100% { transform: translate(0); }
+  20%  { transform: translate(-2px, 2px); }
+  40%  { transform: translate(2px, -1px); }
+  60%  { transform: translate(-1px, -2px); }
+  80%  { transform: translate(1px, 1px); }
+}
+
+.animate-screen-shake {
+  animation: screen-shake 0.3s ease-out;
+}
+
+/* =============================================
+   HP BAR GLOW
+   ============================================= */
+
+@keyframes hp-glow {
+  0%, 100% { box-shadow: inset 0 0 10px rgba(255,255,255,0.1), 0 0 8px var(--hp-glow-color, rgba(34,197,94,0.3)); }
+  50%      { box-shadow: inset 0 0 15px rgba(255,255,255,0.2), 0 0 16px var(--hp-glow-color, rgba(34,197,94,0.5)); }
+}
+
+/* =============================================
+   SMOKE / FOG - Khói ma quái quanh boss
+   ============================================= */
+
+@keyframes smoke-drift-1 {
+  0%   { opacity: 0; transform: translateX(0) translateY(0) scale(0.5); }
+  30%  { opacity: 0.4; }
+  100% { opacity: 0; transform: translateX(-80px) translateY(-60px) scale(2); }
+}
+
+@keyframes smoke-drift-2 {
+  0%   { opacity: 0; transform: translateX(0) translateY(0) scale(0.5); }
+  30%  { opacity: 0.3; }
+  100% { opacity: 0; transform: translateX(70px) translateY(-50px) scale(1.8); }
+}
+
+@keyframes smoke-drift-3 {
+  0%   { opacity: 0; transform: translateX(0) translateY(0) scale(0.6); }
+  25%  { opacity: 0.35; }
+  100% { opacity: 0; transform: translateX(-30px) translateY(-80px) scale(2.2); }
+}
+
+/* =============================================
+   VICTORY ANIMATION
+   ============================================= */
+
+@keyframes victory-bounce {
+  0%, 100% { transform: scale(1); }
+  25%      { transform: scale(1.08); }
+  50%      { transform: scale(0.95); }
+  75%      { transform: scale(1.04); }
+}
+
+@keyframes victory-glow {
+  0%, 100% {
+    text-shadow:
+      0 0 20px rgba(251, 191, 36, 0.5),
+      0 0 40px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    text-shadow:
+      0 0 30px rgba(251, 191, 36, 0.8),
+      0 0 60px rgba(34, 197, 94, 0.5),
+      0 0 80px rgba(251, 191, 36, 0.3);
+  }
+}
+
+/* =============================================
+   BUTTON 3D
+   ============================================= */
+
+.btn-3d {
+  transform: perspective(500px) translateZ(0);
+  transition: all 0.2s ease;
+}
+
+.btn-3d:hover:not(:disabled) {
+  transform: perspective(500px) translateZ(5px) translateY(-2px);
+}
+
+.btn-3d:active:not(:disabled) {
+  transform: perspective(500px) translateZ(-3px) translateY(2px);
+}
+
+/* =============================================
+   SCROLLBAR
+   ============================================= */
+
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(55, 48, 107, 0.3);
+  background: rgba(30, 20, 60, 0.5);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 92, 246, 0.6);
+  background: rgba(139, 92, 246, 0.5);
 }
 
-/* Button hover glow */
-button:hover:not(:disabled) {
-  transform: translateY(-1px);
-}
+/* =============================================
+   INPUT FOCUS GLOW
+   ============================================= */
 
-button:active:not(:disabled) {
-  transform: translateY(1px);
+.input-glow:focus {
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3), 0 0 20px rgba(139, 92, 246, 0.15);
 }
